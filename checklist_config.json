@@ -1,0 +1,346 @@
+{
+  "categories": [
+    {
+      "id": "format_type",
+      "name": "Nutrition Facts Format Type",
+      "cfr_reference": "21 CFR 101.9(d)",
+      "checks": [
+        {
+          "id": "format_layout",
+          "requirement": "Does the label use the correct layout format?",
+          "options": ["Single-Column", "Dual-Column"],
+          "validator": "check_format_layout",
+          "severity": "critical"
+        },
+        {
+          "id": "dual_column_requirement",
+          "requirement": "Dual-column required if container could be eaten at once AND contains ≥2 servings",
+          "validator": "check_dual_column_requirement",
+          "severity": "critical"
+        },
+        {
+          "id": "dual_column_values",
+          "requirement": "Both per-serving AND per-container values are declared (if dual-column)",
+          "validator": "check_dual_column_values",
+          "severity": "critical"
+        },
+        {
+          "id": "column_labels",
+          "requirement": "Columns are clearly labeled (e.g., 'Per Serving (55g)' and 'Per Container (142g)')",
+          "validator": "check_column_labels",
+          "severity": "high"
+        }
+      ]
+    },
+    {
+      "id": "serving_size",
+      "name": "Serving Size & Servings per Container",
+      "cfr_reference": "21 CFR 101.9(b)(1)",
+      "checks": [
+        {
+          "id": "racc_compliance",
+          "requirement": "Serving size uses RACC (e.g., ~55g for deli slices)",
+          "validator": "check_racc_compliance",
+          "severity": "critical",
+          "racc_table": {
+            "plant-based-deli-slices": 55,
+            "plant-based-burgers": 110,
+            "plant-based-sausages": 55,
+            "plant-based-ground": 84,
+            "plant-based-milk": 240,
+            "plant-based-cheese": 30,
+            "plant-based-yogurt": 170
+          }
+        },
+        {
+          "id": "metric_units",
+          "requirement": "Serving size includes metric (g or mL)",
+          "validator": "check_metric_units",
+          "severity": "critical"
+        },
+        {
+          "id": "servings_declared",
+          "requirement": "Servings per container clearly declared",
+          "validator": "check_servings_declared",
+          "severity": "critical"
+        },
+        {
+          "id": "household_measure",
+          "requirement": "Household measure (e.g., 'about 5 slices') matches actual portioning",
+          "validator": "check_household_measure",
+          "severity": "high"
+        },
+        {
+          "id": "format_correct",
+          "requirement": "Format: 'Serving size about 5 slices (55g)' and 'about 2.5 servings per container'",
+          "validator": "check_serving_format",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "id": "calories",
+      "name": "Calories Declaration",
+      "cfr_reference": "21 CFR 101.9(c)",
+      "checks": [
+        {
+          "id": "calories_bold",
+          "requirement": "'Calories' in bold and larger font",
+          "validator": "check_calories_formatting",
+          "severity": "high"
+        },
+        {
+          "id": "calories_value",
+          "requirement": "Correct per serving value",
+          "validator": "check_calories_value",
+          "severity": "critical"
+        },
+        {
+          "id": "calories_dual_column",
+          "requirement": "If dual column: per container calories also shown",
+          "validator": "check_calories_dual_column",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "id": "nutrients",
+      "name": "Nutrient Declarations – Order & Units",
+      "cfr_reference": "21 CFR 101.9(c)",
+      "required_order": [
+        "Total Fat",
+        "Saturated Fat",
+        "Trans Fat",
+        "Cholesterol",
+        "Sodium",
+        "Total Carbohydrate",
+        "Dietary Fiber",
+        "Total Sugars",
+        "Includes Added Sugars",
+        "Protein",
+        "Vitamin D",
+        "Calcium",
+        "Iron",
+        "Potassium"
+      ],
+      "checks": [
+        {
+          "id": "nutrient_order",
+          "requirement": "Nutrients appear in exact required order",
+          "validator": "check_nutrient_order",
+          "severity": "critical"
+        },
+        {
+          "id": "nutrient_formatting",
+          "requirement": "Bold for main nutrients, indented for sub-nutrients",
+          "validator": "check_nutrient_formatting",
+          "severity": "high"
+        },
+        {
+          "id": "nutrient_units",
+          "requirement": "Correct units (g, mg, mcg)",
+          "validator": "check_nutrient_units",
+          "severity": "critical"
+        }
+      ]
+    },
+    {
+      "id": "daily_values",
+      "name": "% Daily Values (% DV)",
+      "cfr_reference": "21 CFR 101.9(d)(9)",
+      "checks": [
+        {
+          "id": "dv_declared",
+          "requirement": "All mandatory %DV values are declared",
+          "validator": "check_dv_declared",
+          "severity": "critical"
+        },
+        {
+          "id": "dv_reference_2016",
+          "requirement": "Based on current 2016 FDA DV reference values",
+          "validator": "check_dv_reference",
+          "severity": "critical"
+        },
+        {
+          "id": "trans_fat_no_dv",
+          "requirement": "Trans Fat has no %DV (correct)",
+          "validator": "check_trans_fat_no_dv",
+          "severity": "high"
+        },
+        {
+          "id": "added_sugars_dv",
+          "requirement": "Added Sugars includes %DV (required)",
+          "validator": "check_added_sugars_dv",
+          "severity": "critical"
+        },
+        {
+          "id": "zero_nutrients_dv",
+          "requirement": "Nutrients with 0g still show 0% if required",
+          "validator": "check_zero_nutrients_dv",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "id": "footnote",
+      "name": "Footnote",
+      "cfr_reference": "21 CFR 101.9(d)(9)",
+      "checks": [
+        {
+          "id": "footnote_present",
+          "requirement": "Required footnote is included",
+          "expected_text": "The % Daily Value tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.",
+          "validator": "check_footnote_present",
+          "severity": "critical"
+        },
+        {
+          "id": "footnote_formatting",
+          "requirement": "Italicized or smaller font than nutrient body",
+          "validator": "check_footnote_formatting",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "id": "ingredients",
+      "name": "Ingredient List",
+      "cfr_reference": "21 CFR 101.4",
+      "checks": [
+        {
+          "id": "ingredients_label",
+          "requirement": "Starts with 'Ingredients:' in bold",
+          "validator": "check_ingredients_label",
+          "severity": "high"
+        },
+        {
+          "id": "descending_order",
+          "requirement": "Ingredients listed in descending weight order",
+          "validator": "check_descending_order",
+          "severity": "critical"
+        },
+        {
+          "id": "sub_ingredients",
+          "requirement": "Sub-ingredients in parentheses",
+          "validator": "check_sub_ingredients",
+          "severity": "high"
+        },
+        {
+          "id": "common_names",
+          "requirement": "Uses common or usual names",
+          "validator": "check_common_names",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "id": "allergens",
+      "name": "Allergen Declaration",
+      "cfr_reference": "FALCPA (21 CFR 101.22)",
+      "top_9_allergens": ["Milk", "Eggs", "Fish", "Shellfish", "Tree nuts", "Peanuts", "Wheat", "Soybeans", "Sesame"],
+      "checks": [
+        {
+          "id": "contains_statement",
+          "requirement": "Includes 'Contains: [allergens]' statement",
+          "validator": "check_contains_statement",
+          "severity": "critical"
+        },
+        {
+          "id": "top_9_coverage",
+          "requirement": "Covers all Top 9 allergens present",
+          "validator": "check_top_9_coverage",
+          "severity": "critical"
+        },
+        {
+          "id": "allergen_prominence",
+          "requirement": "Font and placement are prominent",
+          "validator": "check_allergen_prominence",
+          "severity": "high"
+        }
+      ]
+    },
+    {
+      "id": "rounding",
+      "name": "Rounding Rules Compliance",
+      "cfr_reference": "21 CFR 101.9(c)",
+      "rules": {
+        "Total Fat": "Nearest 0.5g if <5g, nearest 1g if ≥5g",
+        "Saturated Fat": "Nearest 0.5g if <5g, nearest 1g if ≥5g",
+        "Trans Fat": "Always declared as 0g or 0.5g if present",
+        "Sodium": "Nearest 5mg if <140mg, nearest 10mg if ≥140mg",
+        "Total Sugars": "Nearest 1g",
+        "Added Sugars": "Nearest 1g",
+        "Protein": "Nearest whole gram if >1g, '<1g' if appropriate",
+        "Vitamins/Minerals": "%DV rounded to nearest whole number"
+      },
+      "checks": [
+        {
+          "id": "fat_rounding",
+          "requirement": "Total Fat and Saturated Fat follow rounding rules",
+          "validator": "check_fat_rounding",
+          "severity": "critical"
+        },
+        {
+          "id": "trans_fat_rounding",
+          "requirement": "Trans Fat is 0g or 0.5g only",
+          "validator": "check_trans_fat_rounding",
+          "severity": "critical"
+        },
+        {
+          "id": "sodium_rounding",
+          "requirement": "Sodium follows rounding rules",
+          "validator": "check_sodium_rounding",
+          "severity": "high"
+        },
+        {
+          "id": "sugar_rounding",
+          "requirement": "Sugars rounded to nearest 1g",
+          "validator": "check_sugar_rounding",
+          "severity": "high"
+        },
+        {
+          "id": "protein_rounding",
+          "requirement": "Protein rounded correctly",
+          "validator": "check_protein_rounding",
+          "severity": "medium"
+        },
+        {
+          "id": "vitamin_mineral_rounding",
+          "requirement": "%DV for vitamins/minerals rounded to whole numbers",
+          "validator": "check_vitamin_mineral_rounding",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "id": "other_elements",
+      "name": "Other Required Label Elements",
+      "cfr_reference": "21 CFR 101.105",
+      "checks": [
+        {
+          "id": "net_weight",
+          "requirement": "Net weight in U.S. units (e.g., '5 oz') on PDP lower 30%",
+          "validator": "check_net_weight",
+          "severity": "critical"
+        },
+        {
+          "id": "manufacturer_info",
+          "requirement": "Manufacturer name & address with city, state, ZIP",
+          "validator": "check_manufacturer_info",
+          "severity": "critical"
+        },
+        {
+          "id": "safe_handling",
+          "requirement": "Safe handling & storage instructions",
+          "validator": "check_safe_handling",
+          "severity": "high"
+        },
+        {
+          "id": "product_identity",
+          "requirement": "Clear product name (e.g., 'Plant-Based Deli Slices – Smoked Ham')",
+          "validator": "check_product_identity",
+          "severity": "high"
+        }
+      ]
+    }
+  ]
+}
