@@ -14,6 +14,12 @@ from extractor import extract_nutrition_data
 from validators import run_compliance_checks
 from report_generator import generate_pdf_report
 from app_comparison import render_comparison_tab
+from app_tabs import (
+    render_batch_processing_tab,
+    render_excel_import_tab,
+    render_manual_editor_tab,
+    render_claims_validation_tab
+)
 
 # Load environment variables
 load_dotenv()
@@ -84,7 +90,15 @@ def main():
         """)
 
     # Main content
-    tab1, tab2, tab3, tab4 = st.tabs(["📤 Upload & Analyze", "📊 Spec vs Package", "📋 Checklist Reference", "ℹ️ Help"])
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+        "📤 Upload & Analyze",
+        "📊 Spec vs Package",
+        "📦 Batch Processing",
+        "📊 Excel Import",
+        "✏️ Manual Editor",
+        "🏆 Claims Validator",
+        "ℹ️ Help"
+    ])
 
     with tab1:
         st.header("Upload Nutrition Label or Spec Sheet")
@@ -146,10 +160,27 @@ def main():
         render_comparison_tab(product_type)
 
     with tab3:
-        st.header("📋 FDA Compliance Checklist Reference")
-        display_checklist_reference(load_checklist_config())
+        # Batch Processing
+        render_batch_processing_tab(
+            product_type,
+            extract_nutrition_data,
+            run_compliance_checks,
+            load_checklist_config()
+        )
 
     with tab4:
+        # Excel Import
+        render_excel_import_tab(product_type)
+
+    with tab5:
+        # Manual Editor
+        render_manual_editor_tab(product_type, extract_nutrition_data)
+
+    with tab6:
+        # Claims Validator
+        render_claims_validation_tab(product_type, extract_nutrition_data)
+
+    with tab7:
         st.header("ℹ️ Help & Instructions")
         display_help()
 
