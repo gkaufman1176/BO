@@ -53,6 +53,7 @@ def main():
                 "plant-based-deli-slices",
                 "plant-based-burgers",
                 "plant-based-sausages",
+                "plant-based-chicken",
                 "plant-based-ground",
                 "plant-based-milk",
                 "plant-based-cheese",

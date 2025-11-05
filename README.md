@@ -178,6 +178,7 @@ The app includes RACC (Reference Amount Customarily Consumed) values for common 
 | Deli Slices | 55g |
 | Burgers | 110g |
 | Sausages | 55g |
+| Chicken | 85g |
 | Ground Meat | 84g |
 | Milk | 240mL |
 | Cheese | 30g |
