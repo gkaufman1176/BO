@@ -13,6 +13,7 @@ import os
 from extractor import extract_nutrition_data
 from validators import run_compliance_checks
 from report_generator import generate_pdf_report
+from app_comparison import render_comparison_tab
 
 # Load environment variables
 load_dotenv()
@@ -83,7 +84,7 @@ def main():
         """)
 
     # Main content
-    tab1, tab2, tab3 = st.tabs(["📤 Upload & Analyze", "📋 Checklist Reference", "ℹ️ Help"])
+    tab1, tab2, tab3, tab4 = st.tabs(["📤 Upload & Analyze", "📊 Spec vs Package", "📋 Checklist Reference", "ℹ️ Help"])
 
     with tab1:
         st.header("Upload Nutrition Label or Spec Sheet")
@@ -141,10 +142,14 @@ def main():
             )
 
     with tab2:
+        # Spec vs Package Comparison
+        render_comparison_tab(product_type)
+
+    with tab3:
         st.header("📋 FDA Compliance Checklist Reference")
         display_checklist_reference(load_checklist_config())
 
-    with tab3:
+    with tab4:
         st.header("ℹ️ Help & Instructions")
         display_help()
 
