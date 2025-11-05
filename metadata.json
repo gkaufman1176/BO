@@ -1,0 +1,7 @@
+{
+  "name": "Protein Purification Lab LIMS",
+  "description": "A web application for managing R&D lab data for ingredients, extractions, assays, and functional tests in a worksheet-style interface.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
